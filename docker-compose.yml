@@ -1,0 +1,43 @@
+
+version: '3'
+services:
+  hbbs:
+    container_name: hbbs
+    image: rustdesk/rustdesk-server:latest
+    command: hbbs
+    volumes:
+      - ./data:/root
+    network_mode: "host"
+    # ports:
+    #   # - 21114:21114
+    #   - 21115:21115
+    #   - 21116:21116
+    #   - 21116:21116/udp
+    #   - 21118:21118
+    depends_on:
+      - hbbr
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      SET_CONTAINER_TIMEZONE: 'true'
+      CONTAINER_TIMEZONE: America/Santiago
+      ALWAYS_USE_RELAY: Y
+  hbbr:
+    container_name: hbbr
+    image: rustdesk/rustdesk-server:latest
+    command: hbbr
+    volumes:
+      - ./data:/root
+    network_mode: "host"
+    # ports:
+    #   - 21117:21117
+    #   - 21119:21119
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      SET_CONTAINER_TIMEZONE: 'true'
+      CONTAINER_TIMEZONE: America/Santiago
+# volumes:
+#   data:
